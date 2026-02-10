@@ -11,7 +11,7 @@ import SwiftUI
 struct GoalTrackerApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Shell()
         }
     }
 }
