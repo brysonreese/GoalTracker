@@ -40,8 +40,8 @@ class GoalStore: ObservableObject {
         goals.firstIndex(of: goal)
     }
     
-    func addGoal(title: String, target: Int, goalDate: Date) {
-        let newGoal = Goal(title: title, currentCount: 0, targetCount: target, goalDate: goalDate)
+    func addGoal(title: String, target: Int, goalDate: Date, frequency: Goal.Frequency) {
+        let newGoal = Goal(title: title, currentCount: 0, targetCount: target, goalDate: goalDate, frequency: frequency)
         goals.append(newGoal)
     }
     

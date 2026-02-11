@@ -13,25 +13,31 @@ class Goal: ObservableObject, Identifiable, Equatable, Codable {
         return lhs.id == rhs.id
     }
     
+    enum Frequency: String, Codable {
+        case once, daily, weekly, monthly
+    }
+    
     let id: UUID
     @Published var title: String
     @Published var currentCount: Int
     @Published var targetCount: Int
     @Published var goalDate: Date
     @Published var completed: Bool
+    @Published var frequency: Frequency
     
-    init(id: UUID = UUID(), title: String, currentCount: Int, targetCount: Int, goalDate: Date, completed: Bool = false) {
+    init(id: UUID = UUID(), title: String, currentCount: Int, targetCount: Int, goalDate: Date, completed: Bool = false, frequency: Frequency) {
         self.id = id
         self.title = title
         self.currentCount = currentCount
         self.targetCount = targetCount
         self.goalDate = goalDate
         self.completed = completed
+        self.frequency = frequency
     }
 
     // Codable conformance to handle @Published
     enum CodingKeys: String, CodingKey {
-        case id, title, currentCount, targetCount, goalDate, completed
+        case id, title, currentCount, targetCount, goalDate, completed, frequency
     }
 
     required init(from decoder: Decoder) throws {
@@ -42,6 +48,7 @@ class Goal: ObservableObject, Identifiable, Equatable, Codable {
         targetCount = try c.decode(Int.self, forKey: .targetCount)
         goalDate = try c.decode(Date.self, forKey: .goalDate)
         completed = try c.decode(Bool.self, forKey: .completed)
+        frequency = try c.decode(Frequency.self, forKey: .frequency)
     }
 
     func encode(to encoder: Encoder) throws {
@@ -52,6 +59,7 @@ class Goal: ObservableObject, Identifiable, Equatable, Codable {
         try c.encode(targetCount, forKey: .targetCount)
         try c.encode(goalDate, forKey: .goalDate)
         try c.encode(completed, forKey: .completed)
+        try c.encode(frequency, forKey: .frequency)
     }
     
     func increment() {
@@ -78,3 +86,4 @@ class Goal: ObservableObject, Identifiable, Equatable, Codable {
         }
     }
 }
+
