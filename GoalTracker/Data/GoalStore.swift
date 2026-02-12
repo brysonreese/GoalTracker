@@ -45,6 +45,13 @@ class GoalStore: ObservableObject {
         goals.append(newGoal)
     }
     
+    func updateGoal(goal: Goal, title: String, target: Int, goalDate: Date, frequency: Goal.Frequency) {
+        goal.title = title
+        goal.targetCount = target
+        goal.goalDate = goalDate
+        goal.frequency = frequency
+    }
+    
     func deleteGoal(_ goal: Goal) {
         guard let index = getIndex(for: goal) else { return }
         

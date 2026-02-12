@@ -14,17 +14,24 @@ struct GoalItem: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading){
-                Text(goal.title)
+                Text(goal.title).font(.title2)
                 Text(goal.goalDate.formatted(date: .abbreviated, time: .omitted))
+                Text(goal.frequency.rawValue.capitalized).font(.caption)
             }
             Spacer()
             
             Button {
                 goal.decrement()
             } label: {
-                Image(systemName: "minus.circle.fill")
+                Image(systemName: "minus.circle")
             }.disabled(!allowEdit)
-            Text("\(goal.currentCount)/\(goal.targetCount)")
+
+            VStack {
+                Text("\(goal.currentCount)")
+                    .font(.title2)
+                Text("\(goal.targetCount)")
+                    .font(.caption)
+            }
             Button {
                 if(goal.currentCount < goal.targetCount) {
                     goal.increment()
@@ -33,14 +40,12 @@ struct GoalItem: View {
                 }
             } label: {
                 if(goal.currentCount < goal.targetCount) {
-                    Image(systemName: "plus.circle.fill")
+                    Image(systemName: "plus.circle")
                 } else {
                     Image(systemName: "checkmark.circle.fill")
                 }
             }.disabled(!allowEdit)
-        }
-        .buttonStyle(.bordered)
-        .contentShape(Rectangle())
+        }.buttonStyle(.plain)
     }
 }
 

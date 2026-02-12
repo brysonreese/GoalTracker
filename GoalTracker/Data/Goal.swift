@@ -62,6 +62,51 @@ class Goal: ObservableObject, Identifiable, Equatable, Codable {
         try c.encode(frequency, forKey: .frequency)
     }
     
+    enum DueBucket: CaseIterable, Comparable {
+        case pastDue
+        case today
+        case tomorrow
+        case later
+
+        var title: String {
+            switch self {
+            case .pastDue: return "Past Due"
+            case .today: return "Due Today"
+            case .tomorrow: return "Due Tomorrow"
+            case .later: return "Later"
+            }
+        }
+
+        // Define sort order of sections
+        static func < (lhs: DueBucket, rhs: DueBucket) -> Bool {
+            let order: [DueBucket] = [.pastDue, .today, .tomorrow, .later]
+            return order.firstIndex(of: lhs)! < order.firstIndex(of: rhs)!
+        }
+    }
+
+    private func bucket(for date: Date, calendar: Calendar = .current) -> DueBucket {
+        let startOfToday = calendar.startOfDay(for: Date())
+
+        if date < startOfToday {
+            return .pastDue
+        }
+
+        if calendar.isDate(date, inSameDayAs: startOfToday) {
+            return .today
+        }
+
+        if let tomorrow = calendar.date(byAdding: .day, value: 1, to: startOfToday),
+           calendar.isDate(date, inSameDayAs: tomorrow) {
+            return .tomorrow
+        }
+
+        return .later
+    }
+    
+    var dueBucket: DueBucket {
+        bucket(for: goalDate)
+    }
+    
     func increment() {
         if(currentCount < targetCount) {
             currentCount += 1

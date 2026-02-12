@@ -8,7 +8,23 @@
 import SwiftUI
 
 struct Home: View {
-    var body: some View {
-        Text("Home")
+    @EnvironmentObject private var store: GoalStore
+
+    private var goals: [Goal] {
+        store.goals.filter { $0.completed == false }.sorted(by: { lhs, rhs in
+            lhs.goalDate < rhs.goalDate
+        })
     }
+    
+    var body: some View {
+        List{
+            ForEach(goals) { (goal: Goal) in
+                Text(goal.title)
+            }
+        }
+    }
+}
+
+#Preview {
+    Home().environmentObject(GoalStore())
 }

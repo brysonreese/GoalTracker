@@ -16,7 +16,7 @@ struct Shell: View {
     var body: some View {
         TabView {
             Tab("Home", systemImage: "house") {
-                Home()
+                Home().environmentObject(goals)
             }
             Tab("Goals", systemImage: "star") {
                 Goals().environmentObject(goals)
