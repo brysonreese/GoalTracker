@@ -20,7 +20,7 @@ struct CompletedGoals: View {
     }
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             if completedGoals.isEmpty {
                 ContentUnavailableView("No Completed Goals", systemImage: "checkmark.circle")
                     .frame(maxWidth: .infinity, maxHeight: .infinity)

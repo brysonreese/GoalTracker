@@ -57,4 +57,20 @@ class GoalStore: ObservableObject {
         
         goals.remove(at: index)
     }
+    
+    func overdueGoals() -> [Goal] {
+        goals.filter( { $0.dueBucket == Goal.DueBucket.pastDue } )
+    }
+    
+    func dueTodayGoals() -> [Goal] {
+        goals.filter( { $0.dueBucket == Goal.DueBucket.today } )
+    }
+    
+    func dueTomorrowGoals() -> [Goal] {
+        goals.filter( { $0.dueBucket == Goal.DueBucket.tomorrow } )
+    }
+    
+    func dueLaterGoals() -> [Goal] {
+        goals.filter( { $0.dueBucket == Goal.DueBucket.later } )
+    }
 }

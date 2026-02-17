@@ -67,6 +67,7 @@ class Goal: ObservableObject, Identifiable, Equatable, Codable {
         case today
         case tomorrow
         case later
+        case completed
 
         var title: String {
             switch self {
@@ -74,6 +75,7 @@ class Goal: ObservableObject, Identifiable, Equatable, Codable {
             case .today: return "Due Today"
             case .tomorrow: return "Due Tomorrow"
             case .later: return "Later"
+            case .completed: return "Completed"
             }
         }
 
@@ -86,6 +88,10 @@ class Goal: ObservableObject, Identifiable, Equatable, Codable {
 
     private func bucket(for date: Date, calendar: Calendar = .current) -> DueBucket {
         let startOfToday = calendar.startOfDay(for: Date())
+        
+        if completed == true {
+            return .completed
+        }
 
         if date < startOfToday {
             return .pastDue
