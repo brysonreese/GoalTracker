@@ -59,18 +59,18 @@ class GoalStore: ObservableObject {
     }
     
     func overdueGoals() -> [Goal] {
-        goals.filter( { $0.dueBucket == Goal.DueBucket.pastDue } )
+        goals.filter( { $0.dueBucket == Goal.DueBucket.pastDue } ).sorted(by: { $0.goalDate < $1.goalDate })
     }
     
     func dueTodayGoals() -> [Goal] {
-        goals.filter( { $0.dueBucket == Goal.DueBucket.today } )
+        goals.filter( { $0.dueBucket == Goal.DueBucket.today } ).sorted(by: { $0.goalDate < $1.goalDate })
     }
     
     func dueTomorrowGoals() -> [Goal] {
-        goals.filter( { $0.dueBucket == Goal.DueBucket.tomorrow } )
+        goals.filter( { $0.dueBucket == Goal.DueBucket.tomorrow } ).sorted(by: { $0.goalDate < $1.goalDate })
     }
     
     func dueLaterGoals() -> [Goal] {
-        goals.filter( { $0.dueBucket == Goal.DueBucket.later } )
+        goals.filter( { $0.dueBucket == Goal.DueBucket.later } ).sorted(by: { $0.goalDate < $1.goalDate })
     }
 }
